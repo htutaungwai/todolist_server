@@ -1,5 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import chalk from "chalk";
+import generateToken from "../utilities/generateToken.js";
 
 // @desc    REGISTER    Register a new user
 // route    POST        /api/user/register
@@ -7,7 +9,8 @@ import User from "../models/userModel.js";
 
 const registerUser = expressAsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  const userExists = await User.find({ email });
+  const userExists = await User.findOne({ email });
+  const nameExists = await User.findOne({ name });
 
   // VALIDATING USER DATA
   if (!name || !email || !password) {
@@ -15,20 +18,16 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     throw new Error("FAILED TO VALID USER DATA");
   }
 
-  console.log(userExists);
-
   // CHECKING WHETHER IF USER ALREADY EXISTS OR NOT
-  // if (userExists) {
-  //   if (userExists.email) {
-  //     res.status(400);
-  //     throw new Error("E-mail already exists");
-  //   } else if (userExists.name) {
-  //     res.status(400);
-  //     throw new Error("Username had already been choosen exists");
-  //   }
-  // }
+  if (userExists) {
+    res.status(400);
+    throw new Error("E-mail already exists");
+  }
 
-  // CHECKING WEHTHER IF USER NAME ALREADY EXISTS OR NOT
+  if (nameExists) {
+    res.status(400);
+    throw new Error("Username had already been choosen ");
+  }
 
   const user = await User.create({
     name,
@@ -37,6 +36,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   });
 
   if (user) {
+    generateToken(res, user._id);
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -46,17 +46,6 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid user data");
   }
-
-  //   if (user) {
-  //     res.status(201).json({
-  //       _id: user._id,
-  //       name: user.name,
-  //       email: user.email,
-  //     });
-  //   } else {
-  //     res.status(400);
-  //     throw new Error("Invalid email or password");
-  //   }
 });
 
 // @desc    AUTH    user/set token
