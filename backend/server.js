@@ -22,7 +22,7 @@ app.use("/api/users", userRoutes);
 app.use(notFound);
 app.use(errorHandler);
 // CUSTOM ERROR HANDLER
-
+console.log("PROJECT INITIATED");
 app.listen(port, () => {
   console.log(`SERVER STARTED ON PORT ${port}`);
 });
