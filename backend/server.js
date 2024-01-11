@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.send("SERVER IS WORKING WELL");
 });
 
-app.use("/api/users", userRoutes);
+app.use("/", userRoutes);
 
 // CUSTOM ERROR HANDLER
 app.use(notFound);
