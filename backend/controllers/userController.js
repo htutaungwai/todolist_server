@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import chalk from "chalk";
+
 import generateToken from "../utilities/generateToken.js";
 
 // @desc    REGISTER    Register a new user
@@ -47,7 +47,6 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 // @access  PUBLIC
 
 const authUser = expressAsyncHandler(async (req, res) => {
-  console.log(req.body.email);
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -65,10 +64,12 @@ const authUser = expressAsyncHandler(async (req, res) => {
 });
 
 const logoutUser = expressAsyncHandler((req, res) => {
-  res.cookie("TODOIST_JWT", "", {
+  res.cookie("todoist_jwt", "", {
     httpOnly: true,
     expires: new Date(0),
   });
+
+  res.status(200).json({ message: "User logged out." });
 });
 
 // @desc Get user profile

@@ -3,18 +3,21 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./config/db.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
+import cookieParser from "cookie-parser";
 
-import "chalk";
+// enabling dotenv
 dotenv.config();
+
+//connect to MongoDB
 connectDB();
+
 const port = process.env.PORT || 5000;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("SERVER IS WORKING WELL");
-});
+// enabling cookie-parser
+app.use(cookieParser());
 
 app.use("/", userRoutes);
 
@@ -22,7 +25,7 @@ app.use("/", userRoutes);
 app.use(notFound);
 app.use(errorHandler);
 // CUSTOM ERROR HANDLER
-console.log("PROJECT INITIATED");
+
 app.listen(port, () => {
   console.log(`SERVER STARTED ON PORT ${port}`);
 });

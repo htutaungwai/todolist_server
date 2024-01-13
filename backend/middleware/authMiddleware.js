@@ -4,12 +4,12 @@ import User from "../models/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.cookies.TODOIST_JWT;
+
+  token = req.cookies.todoist_jwt;
 
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decoded.userId).select("-password");
-
     next();
   } else {
     res.status(401);
