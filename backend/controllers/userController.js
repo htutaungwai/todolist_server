@@ -43,7 +43,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 });
 
 // @desc    AUTH    user/set token
-// route    POST    /api/user/auth
+// route    POST    /login
 // @access  PUBLIC
 
 const authUser = expressAsyncHandler(async (req, res) => {
