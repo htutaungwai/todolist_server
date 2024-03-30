@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 import connectDB from "./config/db.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
@@ -26,6 +27,7 @@ app.use(
 app.use(cookieParser());
 
 app.use("/", userRoutes);
+app.use("/posts", postRoutes);
 
 // CUSTOM ERROR HANDLER
 app.use(notFound);

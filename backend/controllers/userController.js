@@ -83,6 +83,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     email: req.user.email,
   };
   res.status(200).json(user);
+
+  next();
 });
 
 export { authUser, registerUser, logoutUser, getUserProfile };
