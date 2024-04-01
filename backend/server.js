@@ -15,16 +15,27 @@ connectDB();
 
 const port = process.env.PORT || 5000;
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
 
 // enabling cookie-parser
 app.use(cookieParser());
+
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    samesite: "none",
+  })
+);
+
+app.options("*", cors(corsConfig));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", userRoutes);
 app.use("/posts", postRoutes);
