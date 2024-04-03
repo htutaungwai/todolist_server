@@ -37,8 +37,8 @@ app.options("*", cors(corsConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", userRoutes);
-app.use("/posts", postRoutes);
+app.use("/auth/users", userRoutes);
+app.use("/api/posts", postRoutes);
 
 // CUSTOM ERROR HANDLER
 app.use(notFound);

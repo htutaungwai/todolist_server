@@ -4,17 +4,24 @@ import User from "../models/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-
   token = req.cookies.todoist_jwt;
 
-  console.log("cookies: ", req.cookies);
-
   if (token) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.userId).select("-password");
-    next();
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.userId).select("-password");
+
+      const currentTime = Math.floor(Date.now() / 1000); // in seconds
+      if (decoded.payload.exp <= currentTime) {
+        throw new Error("Token has expired");
+      }
+      next();
+    } catch (error) {
+      console.log(error.message);
+      throw new Error("INVALID TOKEN");
+    }
   } else {
-    res.status(401);
+    console.log("SENT HEDrt");
     throw new Error("INVALID TOKEN");
   }
 });
