@@ -64,11 +64,11 @@ const authUser = expressAsyncHandler(async (req, res) => {
 });
 
 const logoutUser = expressAsyncHandler((req, res) => {
+  console.log("LOGGED OUT");
   res.cookie("todoist_jwt", "", {
     httpOnly: true,
     expires: new Date(0),
   });
-
   res.status(200).json({ message: "User logged out." });
 });
 
@@ -91,6 +91,11 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 // route    GET      /auth/users/singup-status
 // @access  PUBLIC
 
-const isAuthenticated = expressAsyncHandler((req, res, next) => {});
+const authenticateUser = expressAsyncHandler((req, res, next) => {
+  console.log("herer");
+  res.status(200).json({
+    isAuthenticated: true,
+  });
+});
 
-export { authUser, registerUser, logoutUser, getUserProfile };
+export { authUser, registerUser, logoutUser, getUserProfile, authenticateUser };

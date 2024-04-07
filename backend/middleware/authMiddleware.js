@@ -12,12 +12,12 @@ const protect = asyncHandler(async (req, res, next) => {
       req.user = await User.findById(decoded.userId).select("-password");
 
       const currentTime = Math.floor(Date.now() / 1000); // in seconds
-      if (decoded.payload.exp <= currentTime) {
+      if (decoded.exp <= currentTime) {
         throw new Error("Token has expired");
       }
       next();
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
       throw new Error("INVALID TOKEN");
     }
   } else {
