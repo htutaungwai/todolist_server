@@ -3,14 +3,11 @@ import Post from "../models/postModel.js";
 
 // GET ALL POSTS
 const getAllPosts = expressAsyncHandler(async (req, res) => {
-  console.log("this is working");
   try {
-    console.log(req);
     const userId = req.user._id.toLocaleString();
     console.log(userId);
     console.log(typeof userId);
     const posts = await Post.find({ userId }); // Querying posts with the given user ID
-
     res.json(posts);
 
     console.log(posts);

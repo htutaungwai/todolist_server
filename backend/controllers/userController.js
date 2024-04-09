@@ -72,7 +72,7 @@ const logoutUser = expressAsyncHandler((req, res) => {
   res.status(200).json({ message: "User logged out." });
 });
 
-// @desc Get user profile
+// @desc Get user profileb
 // route Get /api/profile
 // @access Private
 
@@ -92,7 +92,6 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 // @access  PUBLIC
 
 const authenticateUser = expressAsyncHandler((req, res, next) => {
-  console.log("herer");
   res.status(200).json({
     isAuthenticated: true,
   });

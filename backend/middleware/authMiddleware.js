@@ -15,13 +15,20 @@ const protect = asyncHandler(async (req, res, next) => {
       if (decoded.exp <= currentTime) {
         throw new Error("Token has expired");
       }
+
+      console.log("success");
       next();
     } catch (error) {
       console.log(error);
+      res.status(401).json({
+        isAuthenticated: false,
+      });
       throw new Error("INVALID TOKEN");
     }
   } else {
-    console.log("SENT HEDrt");
+    res.status(401).json({
+      isAuthenticated: false,
+    });
     throw new Error("INVALID TOKEN");
   }
 });
