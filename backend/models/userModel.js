@@ -6,7 +6,6 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
 
     email: {
@@ -26,14 +25,17 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
+  console.warn("THIS IS PRE_SAVE RUNNING");
   if (!this.isModified("password")) {
+    console.log("this is not running...");
     next();
   }
   const salt = await bcrypt.genSalt(12);
-  this.password = bcrypt.hash(this.password, salt);
+  this.password = await bcrypt.hash(this.password, salt);
+  console.log("this.password: ", this.password);
 });
 
-userSchema.post("save", async function (next) {
+userSchema.post("save", async function () {
   try {
     const commonPost = new Post({
       title: "Todoist ကနေကြိုဆိုပါတယ်နော်... 🎉",
@@ -53,8 +55,6 @@ userSchema.post("save", async function (next) {
     });
 
     await commonPost.save();
-    next();
-    console.log("Common post created for user:", this.name);
   } catch (error) {
     console.error("Error creating common post:", error);
   }
