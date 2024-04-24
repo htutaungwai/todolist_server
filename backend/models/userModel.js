@@ -25,7 +25,6 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  console.warn("THIS IS PRE_SAVE RUNNING");
   if (!this.isModified("password")) {
     console.log("this is not running...");
     next();
