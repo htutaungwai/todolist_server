@@ -65,11 +65,13 @@ const authUser = expressAsyncHandler(async (req, res) => {
 
 const logoutUser = expressAsyncHandler((req, res) => {
   console.log("LOGGED OUT");
-  res.cookie("todoist_jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-  res.status(200).json({ message: "User logged out." });
+  res
+    .status(200)
+    .json({ message: "User logged out." })
+    .cookie("todoist_jwt", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    });
 });
 
 // @desc Get user profileb

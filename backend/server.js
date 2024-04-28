@@ -33,10 +33,10 @@ app.use(
 );
 
 app.options("*", cors(corsConfig));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ROUTES
 app.use("/auth/users", userRoutes);
 app.use("/api/posts", postRoutes);
 
