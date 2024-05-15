@@ -8,7 +8,9 @@ import generateToken from "../utilities/generateToken.js";
 
 const registerUser = expressAsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ "credentials.email": email });
+
+  console.log(userExists);
 
   // VALIDATING USER DATA
   if (!name || !email || !password) {
@@ -23,9 +25,11 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name,
-    email,
-    password,
+    credentials: {
+      name,
+      email,
+      password,
+    },
   });
 
   if (user) {
@@ -47,7 +51,11 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
 const authUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ "credentials.email": email });
+
+  console.log("user :", user);
+  console.log("email :", email);
+  console.log("password: ", password);
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);

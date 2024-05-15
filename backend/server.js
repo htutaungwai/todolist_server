@@ -43,6 +43,7 @@ app.use("/api/posts", postRoutes);
 // CUSTOM ERROR HANDLER
 app.use(notFound);
 app.use(errorHandler);
+
 // CUSTOM ERROR HANDLER
 
 app.listen(port, () => {
