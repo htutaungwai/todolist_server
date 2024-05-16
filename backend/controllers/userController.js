@@ -10,8 +10,6 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   const userExists = await User.findOne({ "credentials.email": email });
 
-  console.log(userExists);
-
   // VALIDATING USER DATA
   if (!name || !email || !password) {
     res.status(400);
@@ -52,10 +50,6 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 const authUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ "credentials.email": email });
-
-  console.log("user :", user);
-  console.log("email :", email);
-  console.log("password: ", password);
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);

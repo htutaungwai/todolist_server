@@ -9,8 +9,6 @@ const getAllPosts = expressAsyncHandler(async (req, res) => {
     console.log(typeof userId);
     const posts = await Post.find({ userId }); // Querying posts with the given user ID
     res.json(posts);
-
-    console.log(posts);
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ error: "Internal Server Error" });

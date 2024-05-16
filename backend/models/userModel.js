@@ -20,7 +20,26 @@ const userSchema = mongoose.Schema(
         required: true,
       },
     },
+
+    preferences: {
+      categories: {
+        type: [
+          {
+            type: String,
+            unique: true,
+          },
+        ],
+        validate: {
+          validator: function (val) {
+            // Check if all elements are unique strings
+            return val.length === new Set(val).size;
+          },
+          message: "All elements in categories must be unique strings",
+        },
+      },
+    },
   },
+
   {
     timestamps: true,
   }
@@ -37,7 +56,8 @@ userSchema.pre("save", async function (next) {
     this.credentials.password,
     salt
   );
-  console.log("this.password: ", this.password);
+
+  this.preferences.categories = ["Health", "Work", "Study"];
 });
 
 userSchema.post("save", async function () {
