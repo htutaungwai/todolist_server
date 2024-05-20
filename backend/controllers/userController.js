@@ -54,10 +54,11 @@ const authUser = expressAsyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
 
+    console.log(user);
     res.status(201).json({
       _id: user._id,
-      name: user.name,
-      email: user.email,
+      name: user.credentials.name,
+      email: user.credentials.email,
     });
   } else {
     res.status(401);
