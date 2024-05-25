@@ -11,6 +11,7 @@ const getAllPosts = expressAsyncHandler(async (req, res) => {
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ error: "Internal Server Error" });
+    throw new Error(error);
   }
 });
 
@@ -50,7 +51,7 @@ const deletePost = expressAsyncHandler(async (req, res) => {
       });
     } else {
       res.status(201).json({
-        message: "Authorization Error.",
+        message: "Invalid credentials",
       });
     }
   } catch (error) {
